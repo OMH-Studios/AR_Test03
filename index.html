@@ -1,83 +1,22 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>OMH Estudio AR Test</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    
-    <style>
-      /* Fondo de la página siempre negro */
-      body { margin: 0; background-color: #000; overflow: hidden; }
-
-      /* Ajuste de los colores de carga de MindAR */
-      .mindar-ui-loading { background-color: #000 !important; }
-      .mindar-ui-loading > div { border-top-color: #fff !important; }
-
-      /* Interfaz de escaneo personalizada */
-      #scanning-overlay {
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        display: flex; justify-content: center; align-items: center;
-        background: rgba(0,0,0,0.8); z-index: 999;
-        font-family: sans-serif; color: white; text-align: center;
-        transition: opacity 0.5s ease;
-      }
-
-      /* Clase para ocultar el overlay con suavidad */
-      .hidden { opacity: 0; pointer-events: none; }
-    </style>
   </head>
   <body>
-
-    <div id="scanning-overlay">
-        <div>
-            <p style="font-size: 1.2rem;">OMH ESTUDIO AR TEST</p>
-            <p style="font-weight: lighter;">📷 Apunta hacia el plano o QR<br>para ver el modelo.</p>
-        </div>
-    </div>
-
-    <a-scene 
-        mindar-image="imageTargetSrc: ./targets.mind; uiScanning: no; filterMinCF: 0.0001; filterBeta: 0.001;" 
-        color-space="sRGB" 
-        renderer="colorManagement: true, physicallyCorrectLights" 
-        vr-mode-ui="enabled: false" 
-        device-orientation-permission-ui="enabled: false">
+    <a-scene mindar-image="imageTargetSrc: ./targets.mind; uiScanning: no;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       
       <a-assets>
-        <a-asset-item id="modeloCasa" src="./modelo.glb"></a-asset-item>
+        <a-asset-item id="modelo" src="./modelo.glb"></a-asset-item>
       </a-assets>
 
-      <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="far: 10000; objects: .clickable"></a-camera>
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <a-entity id="example-target" mindar-image-target="targetIndex: 0">
-        
-        <a-gltf-model 
-            src="#modeloCasa" 
-            rotation="90 0 0" 
-            position="0 0.1 0" 
-            scale="1 1 1"
-            shadow="cast: true; receive: true">
-        </a-gltf-model>
-
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-gltf-model src="#modelo" rotation="90 0 0" position="0 0 0" scale="0.5 0.5 0.5"></a-gltf-model>
       </a-entity>
-
     </a-scene>
-
-    <script>
-        // Script para detectar cuando se encuentra la imagen y ocultar el texto
-        const targetEntity = document.querySelector('#example-target');
-        const overlay = document.querySelector('#scanning-overlay');
-
-        targetEntity.addEventListener("targetFound", event => {
-            console.log("Imagen encontrada");
-            overlay.classList.add("hidden");
-        });
-
-        targetEntity.addEventListener("targetLost", event => {
-            console.log("Imagen perdida");
-            overlay.classList.remove("hidden");
-        });
-    </script>
   </body>
 </html>
