@@ -4,32 +4,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
-    
-    <style>
-      body { margin: 0; overflow: hidden; }
-    </style>
   </head>
   <body>
     <a-scene 
-      mindar-image="imageTargetSrc: ./targets.mind; uiScanning: no; filterMinCF:0.001; filterBeta: 1;" 
+      mindar-image="imageTargetSrc: casco.mind; uiScanning: yes;" 
       color-space="sRGB" 
       renderer="colorManagement: true, physicallyCorrectLights" 
       vr-mode-ui="enabled: false" 
       device-orientation-permission-ui="enabled: false">
       
       <a-assets>
-        <a-asset-item id="modeloC" src="./modelo.glb"></a-asset-item>
+        <a-asset-item id="modeloC" src="modelo.glb"></a-asset-item>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <a-entity mindar-image-target="targetIndex: 0">
+        
+        <a-plane color="green" opacity="0.5" position="0 0 0" height="1" width="1" rotation="0 0 0"></a-plane>
+
+        <a-box color="red" position="0 0 0.1" scale="0.2 0.2 0.2"></a-box>
+
         <a-gltf-model 
           src="#modeloC" 
           rotation="90 0 0" 
           position="0 0 0" 
-          scale="0.2 0.2 0.2">
+          scale="1 1 1">
         </a-gltf-model>
+
       </a-entity>
     </a-scene>
   </body>
